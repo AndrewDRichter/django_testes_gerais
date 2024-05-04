@@ -1,4 +1,5 @@
 from django.db import models
+from base.models import Usuario
 
 # Create your models here.
 class Conta(models.Model):
@@ -9,6 +10,17 @@ class Conta(models.Model):
         verbose_name = "Conta"
         verbose_name_plural = "Contas"
 
-class ContaCliente(models.Model):
+    def __str__(self):
+        return self.nome_conta
+
+class ContaUsuario(models.Model):
     conta = models.ForeignKey(Conta, on_delete=models.PROTECT)
-    cliente = models.CharField("Cliente", max_length=200)
+    usuario = models.ForeignKey(Usuario, on_delete=models.PROTECT)
+    saldo = models.DecimalField("Saldo", decimal_places=2, max_digits=14, default=0)
+
+    class Meta:
+        verbose_name = "ContaCliente"
+        verbose_name_plural = "ContasClientes"
+
+    def __str__(self):
+        return f"{self.usuario} - {self.conta}"
